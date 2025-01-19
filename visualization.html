@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Expense Visualization</h1>
+        <a href="index.html" class="btn back-btn">Back to Expense Entry</a>
+    </header>
+
+    <main>
+        <!-- Weekly Summary Section -->
+        <section id="summary" class="card">
+            <h2>Weekly Summary</h2>
+            <canvas id="weeklySummaryChart"></canvas>
+        </section>
+
+        <!-- Latest Transactions Section -->
+        <section id="transactions" class="card">
+            <h2>Latest Transactions</h2>
+            <div id="transactionList" class="transaction-list">
+                <!-- Transactions will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Monthly Summary Section -->
+        <section id="monthly-summary" class="card">
+            <h2>Monthly Summary</h2>
+            <div class="summary-stats">
+                <div>
+                    <strong id="totalExpenses">$0.00</strong>
+                    <span>Expenses</span>
+                </div>
+                <div>
+                    <strong id="totalIncome">$0.00</strong>
+                    <span>Income</span>
+                </div>
+            </div>
+            <canvas id="monthlySummaryChart"></canvas>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        window.onload = function() {
+            // Retrieve expenses from localStorage
+            const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+            if (expenses.length === 0) {
+                document.getElementById('totalExpenses').textContent = '$0.00';
+                document.getElementById('totalIncome').textContent = '$0.00';
+                document.getElementById('weeklySummaryChart').style.display = 'none';  // Hide the chart if no data
+                document.getElementById('transactionList').innerHTML = '<p>No transactions yet.</p>';
+                return;  // Stop execution if no expenses data
+            }
+
+            // Calculate total expenses and income
+            let totalExpenses = 0;
+            let totalIncome = 0;
+
+            expenses.forEach(exp => {
+                if (exp.amount < 0) {
+                    totalExpenses += exp.amount;  // Negative amounts for expenses
+                } else {
+                    totalIncome += exp.amount;    // Positive amounts for income
+                }
+            });
+
+            // Update the total expenses and income in the DOM
+            document.getElementById('totalExpenses').textContent = `$${totalExpenses.toFixed(2)}`;
+            document.getElementById('totalIncome').textContent = `$${totalIncome.toFixed(2)}`;
+
+            // Weekly Summary Chart
+            const weeklyData = generateWeeklySummary(expenses);
+            new Chart(document.getElementById('weeklySummaryChart'), {
+                type: 'bar',
+                data: {
+                    labels: weeklyData.labels,
+                    datasets: [{
+                        data: weeklyData.values,
+                        backgroundColor: '#007BFF',
+                    }]
+                }
+            });
+
+            // Display the latest transactions
+            const transactionList = document.getElementById('transactionList');
+            expenses.slice(-5).reverse().forEach(exp => {
+                const transactionItem = document.createElement('div');
+                transactionItem.classList.add('transaction');
+                transactionItem.innerHTML = `
+                    <strong>Amount:</strong> $${exp.amount.toFixed(2)} | 
+                    <strong>Category:</strong> ${exp.category} | 
+                    <strong>Account:</strong> ${exp.account} | 
+                    <strong>Date:</strong> ${exp.date}
+                `;
+                transactionList.appendChild(transactionItem);
+            });
+        };
+
+        function generateWeeklySummary(expenses) {
+            let labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+            let values = [0, 0, 0, 0];
+
+            expenses.forEach(exp => {
+                const expDate = new Date(exp.date);
+                const weekNumber = getWeekNumber(expDate);
+                if (weekNumber >= 1 && weekNumber <= 4) {
+                    values[weekNumber - 1] += exp.amount;
+                }
+            });
+
+            return { labels, values };
+        }
+
+        function getWeekNumber(date) {
+            const startOfYear = new Date(date.getFullYear(), 0, 1);
+            const days = Math.floor((date - startOfYear) / (1000 * 60 * 60 * 24));
+            return Math.ceil((days + 1) / 7);
+        }
+    </script>
+</body>
+</html>

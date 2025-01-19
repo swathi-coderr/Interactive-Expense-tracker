@@ -1,0 +1,334 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header */
+header {
+    background-color: #28a745;  /* Green header */
+    color: white;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 3px solid #007BFF;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* Buttons */
+.btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: #f7f7f7;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.secondary-btn:hover {
+    background-color: #e6e6e6;
+}
+
+.export-btn {
+    background-color: #28a745; /* Green for Export */
+    color: white;
+}
+
+.export-btn:hover {
+    background-color: #218838;
+}
+
+/* Main Section */
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Expense Entry Form */
+#expense-entry, #expense-summary {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom, #ffffff, #f1f1f1);
+}
+
+/* Expense Inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fafafa;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 35px;
+    border-radius: 15px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #007BFF;
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 10px;
+}
+
+.modal-actions .primary-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal-actions .primary-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.modal-actions .secondary-btn {
+    background-color: #f7f7f7;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.modal-actions .secondary-btn:hover {
+    background-color: #e6e6e6;
+    transform: scale(1.05);
+}
+
+/* Transaction List */
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.transaction:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.transaction .amount {
+    font-weight: bold;
+    font-size: 18px;
+    color: #007BFF;
+}
+
+.transaction .category,
+.transaction .account {
+    font-size: 16px;
+    color: #555;
+}
+
+.transaction .date {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Category Icon */
+.category-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007BFF;
+    color: white;
+    font-size: 30px;
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.category-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Summary Section */
+.summary-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;  /* Remove any margin-bottom here */
+}
+
+.summary-stats div {
+    text-align: center;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.summary-stats strong {
+    display: block;
+    font-size: 22px;
+    color: #333;
+}
+
+.summary-stats span {
+    font-size: 16px;
+    color: #777;
+}
+
+/* Remove extra space after the last section */
+section {
+    margin-bottom: 0;  /* Ensure there is no bottom margin */
+    padding-bottom: 0;  /* Ensure no bottom padding */
+}
+
+/* Visualization Page Specific */
+#transactions {
+    background-color: #fafafa;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+#weeklySummaryChart,
+#monthlySummaryChart {
+    width: 100%;
+    height: 300px;
+    background: #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Visualization Button */
+.update-btn {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px 25px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+
